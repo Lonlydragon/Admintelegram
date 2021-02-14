@@ -43,5 +43,12 @@ async def curse(message: types.message):
     apple = price.get_apple_price()
     await message.answer("Курс акций Apple: {}".format(apple))
 
+@dp.message_handler(lambda message: message.text and 'дай права' in message.text.lower())
+async def send_welcome(message: types.message):
+    await message.chat.promote(user_id=message.from_user.id, can_delete_messages=False, can_pin_messages=True,
+                                   can_invite_users=True, can_change_info=True)
+    await message.answer("{} выданы админские права, Lalka".format(message.from_user.first_name))
+    await message.chat.set_administrator_custom_title(user_id=message.from_user.id, custom_title="Lalka")
+
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
