@@ -3,6 +3,7 @@ from decimal import Decimal
 from pytz import timezone
 from datetime import datetime
 import yfinance as yf
+import requests
 
 
 # Текущая дата
@@ -23,6 +24,11 @@ def get_apple_price() -> str:
     Apple = yf.Ticker("AAPL")
     return Apple.info['ask']
 
+def get_btc_price():
+    req = requests.get("https://yobit.net/api/3/ticker/btc_usd")
+    response = req.json()
+    sell_price = response["btc_usd"]["sell"]
+    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M')}\nSell BTC price: {sell_price}")
 
 # # Press the green button in the gutter to run the script.
 # if __name__ == '__main__':
